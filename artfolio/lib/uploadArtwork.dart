@@ -22,15 +22,13 @@ class _UploadArtworkState extends State<UploadArtwork> {
 
  Future<void> _uploadArtwork() async {
   try {
-    // Upload image to Firebase Storage
+
     String imageName = DateTime.now().millisecondsSinceEpoch.toString();
     String imagePath = 'artworks/${widget.userId}/$imageName.jpg';
     await FirebaseStorage.instance.ref().child(imagePath).putFile(_image!);
 
-    // Get image URL
     String imageURL = await FirebaseStorage.instance.ref(imagePath).getDownloadURL();
 
-    // Save artwork details to Firestore
     await FirebaseFirestore.instance.collection('artworks').add({
       'userId': widget.userId,
       'imageURL': imageURL,
@@ -38,7 +36,6 @@ class _UploadArtworkState extends State<UploadArtwork> {
       'timestamp': DateTime.now(),
     });
 
-    // Show success message
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Artwork uploaded successfully!'),
@@ -46,10 +43,9 @@ class _UploadArtworkState extends State<UploadArtwork> {
       ),
     );
 
-    // Close the UploadArtwork screen and return to MyPortfolio screen
     Navigator.pop(context);
   } catch (e) {
-    // Handle errors
+
     print('Error uploading artwork: $e');
   }
 }

@@ -35,13 +35,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Widget _buildProfileAvatar() {
     if (_profileImage != null) {
-      // If there's a selected profile image, use it
+ 
       return CircleAvatar(
         radius: 60,
         backgroundImage: FileImage(_profileImage!),
       );
     } else {
-      // If there's a profile image URL, use it
+   
       if (widget.userData.containsKey('profileImageURL') &&
           widget.userData['profileImageURL'] != null &&
           widget.userData['profileImageURL'] is String) {
@@ -50,7 +50,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           backgroundImage: NetworkImage(widget.userData['profileImageURL'] as String),
         );
       } else {
-        // Use the default avatar image
+
         return CircleAvatar(
           radius: 60,
           backgroundImage: AssetImage('assets/default_avatar.png'),
@@ -70,7 +70,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       'email': _emailController.text,
       'phoneNumber': _phoneNumberController.text,
       'address': _addressController.text,
-      // Update other fields as well
     });
 
     // If a new profile image is selected, upload it to Firebase Storage

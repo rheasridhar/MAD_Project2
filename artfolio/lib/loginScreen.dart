@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'editProfileScreen.dart';
+import 'guestHome.dart';
 import 'homeScreen.dart';
 import 'myPortfolio.dart'; 
 
@@ -33,8 +34,7 @@ class MyApp extends StatelessWidget {
   if (userId != null) {
     return HomeScreen(userId: userId);
   } else {
-    // Handle the case where userId is null, such as navigating to a different screen
-    // or displaying an error message.
+  
     return Scaffold(
       body: Center(
         child: Text('User ID is missing'),
@@ -42,13 +42,12 @@ class MyApp extends StatelessWidget {
     );
   }
 },
-
         '/createAccount': (context) => CreateAccountScreen(),
         '/myPortfolio': (context) => MyPortfolio(userId: ModalRoute.of(context)!.settings.arguments as String),
         '/uploadArtwork': (context) => UploadArtwork(userId: ModalRoute.of(context)!.settings.arguments as String),
         '/editProfile': (context) => EditProfileScreen(userData: ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>),
         '/login': (context) => LoginScreen(),
-
+        '/guestHome': (context) => GuestHome(userId: ModalRoute.of(context)!.settings.arguments as String),
       },
     );
   }
@@ -64,15 +63,29 @@ class LoginScreen extends StatelessWidget {
       email: emailController.text.trim(),
       password: passwordController.text.trim(),
     );
-    // Retrieve the uid of the authenticated user
+
     String userId = userCredential.user!.uid;
-    // Navigate to the home screen and pass the userId as a parameter
+
     Navigator.pushReplacementNamed(context, '/home', arguments: userCredential.user!.uid);
   } catch (e) {
-    // Handle any errors here, such as displaying an error message to the user
+
     print('Error signing in: $e');
   }
 }
+
+  Future<void> signInAnonymously(BuildContext context) async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInAnonymously();
+  
+      String userId = userCredential.user!.uid;
+
+      Navigator.pushReplacementNamed(context, '/guestHome', arguments: userId);
+    } catch (e) {
+   
+      print('Error signing in anonymously: $e');
+    }
+  }
 
 
   @override
@@ -138,12 +151,33 @@ class LoginScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
+            Container(
+  padding: EdgeInsets.symmetric(vertical: 50.0), 
+  child: Text(
+    'or',
+    textAlign: TextAlign.center,
+    style: TextStyle(
+      fontSize: 24.0,
+      fontWeight: FontWeight.bold,
+    ),
+  ),
+),
+Text(
+    'Enter as Guest',
+    textAlign: TextAlign.center,
+    style: TextStyle(
+      fontSize: 24.0,
+      fontWeight: FontWeight.bold,
+    ),
+  ),
+
             SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
-                // Proceed as guest
+              
+                signInAnonymously(context);
               },
-              child: Text('Enter as Guest'),
+              child: Text('Guest'),
             ),
           ],
         ),
@@ -175,7 +209,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       password: passwordController.text.trim(),
     );
 
-    // Store basic user account information in Firestore
     await FirebaseFirestore.instance
         .collection('users')
         .doc(userCredential.user!.uid)
@@ -187,7 +220,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       'address': addressController.text.trim(),
     });
 
-    // Upload profile image to Firebase Storage and update profile image URL in Firestore
     if (_profileImage != null) {
       String imageName =
           DateTime.now().millisecondsSinceEpoch.toString() + '.jpg';
@@ -200,14 +232,12 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       String profileImageURL =
           await FirebaseStorage.instance.ref(imagePath).getDownloadURL();
 
-      // Update profile image URL in Firestore
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userCredential.user!.uid)
           .update({'profileImageURL': profileImageURL});
     }
 
-    // Show success message
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Account created successfully!'),
@@ -215,11 +245,10 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       ),
     );
 
-    // Navigate to the home screen upon successful account creation
     Navigator.pushReplacementNamed(context, '/home', arguments: userCredential.user!.uid);
 
   } catch (e) {
-    // Handle any errors here, such as displaying an error message to the user
+    
     print('Error creating account: $e');
   }
 }

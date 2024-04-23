@@ -44,11 +44,10 @@ class ViewOther extends StatelessWidget {
                         SizedBox(height: 10.0),
                         Text(
                           'UID: $userId',
-                          style: TextStyle(fontSize: 16.0, color: Colors.grey), // Lighter font color
+                          style: TextStyle(fontSize: 16.0, color: Colors.grey), 
                         ),
                         SizedBox(height: 10.0),
-                        // Remove label for artworks
-                        // Display user artworks
+                      
                         StreamBuilder<QuerySnapshot>(
                           stream: FirebaseFirestore.instance.collection('artworks').where('userId', isEqualTo: userId).snapshots(),
                           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -62,22 +61,22 @@ class ViewOther extends StatelessWidget {
                               return GridView.builder(
                                 shrinkWrap: true,
                                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 3, // Changed to 3 images per row
+                                  crossAxisCount: 3, 
                                   crossAxisSpacing: 3.0,
                                   mainAxisSpacing: 3.0,
-                                  childAspectRatio: 1, // Adjust aspect ratio for wider squares
+                                  childAspectRatio: 1, 
                                 ),
                                 itemCount: snapshot.data!.docs.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   var artwork = snapshot.data!.docs[index].data() as Map<String, dynamic>;
                                   return InkWell(
                                     onTap: () {
-                                      // Handle artwork tap
+                            
                                     },
                                     child: Card(
                                       elevation: 3.0,
                                       child: AspectRatio(
-                                        aspectRatio: 1, // Square aspect ratio
+                                        aspectRatio: 1, 
                                         child: Image.network(
                                           artwork['imageURL'],
                                           fit: BoxFit.cover,

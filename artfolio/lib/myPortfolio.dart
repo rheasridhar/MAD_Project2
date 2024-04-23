@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'editProfileScreen.dart'; // Import the edit profile screen
+import 'editProfileScreen.dart'; 
 
 class MyPortfolio extends StatelessWidget {
   final String userId;
@@ -43,7 +43,7 @@ class MyPortfolio extends StatelessWidget {
                             IconButton(
                               icon: Icon(Icons.edit),
                               onPressed: () {
-                                // Navigate to the edit profile screen
+                           
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => EditProfileScreen(userData: userData)),
@@ -60,10 +60,10 @@ class MyPortfolio extends StatelessWidget {
                         SizedBox(height: 10.0),
                         Text(
                           'UID: $userId',
-                          style: TextStyle(fontSize: 16.0, color: Colors.grey), // Lighter font color
+                          style: TextStyle(fontSize: 16.0, color: Colors.grey), 
                         ),
                         SizedBox(height: 10.0),
-                        // Display user artworks
+                  
                         StreamBuilder<QuerySnapshot>(
                           stream: FirebaseFirestore.instance.collection('artworks').where('userId', isEqualTo: userId).snapshots(),
                           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -77,22 +77,22 @@ class MyPortfolio extends StatelessWidget {
                               return GridView.builder(
                                 shrinkWrap: true,
                                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 3, // Changed to 3 images per row
+                                  crossAxisCount: 3, 
                                   crossAxisSpacing: 3.0,
                                   mainAxisSpacing: 3.0,
-                                  childAspectRatio: 1, // Adjust aspect ratio for wider squares
+                                  childAspectRatio: 1, 
                                 ),
                                 itemCount: snapshot.data!.docs.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   var artwork = snapshot.data!.docs[index].data() as Map<String, dynamic>;
                                   return InkWell(
                                     onTap: () {
-                                      // Handle artwork tap
+                                 
                                     },
                                     child: Card(
                                       elevation: 3.0,
                                       child: AspectRatio(
-                                        aspectRatio: 1, // Square aspect ratio
+                                        aspectRatio: 1, 
                                         child: Image.network(
                                           artwork['imageURL'],
                                           fit: BoxFit.cover,
@@ -116,7 +116,7 @@ class MyPortfolio extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Navigate to the screen to add a new artwork
+      
           Navigator.pushNamed(context, '/uploadArtwork', arguments: userId);
         },
         child: Icon(Icons.add),
