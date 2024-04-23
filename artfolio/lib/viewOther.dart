@@ -88,7 +88,7 @@ class ViewOther extends StatelessWidget {
                             ],
                           ),
                           SizedBox(height: 10.0),
-                          Divider(), // Add a divider line
+                      Divider(),
                         ],
                       );
                     }
@@ -142,9 +142,9 @@ class ViewOther extends StatelessWidget {
         Positioned(
           left: 0,
           right: 0,
-          bottom: -10, // Move it lower by adjusting this value
+          bottom: -10, 
           child: Container(
-            height: 50, // Adjust the height as needed
+            height: 50, 
             decoration: BoxDecoration(
               color: Colors.white,
               boxShadow: [
@@ -152,7 +152,7 @@ class ViewOther extends StatelessWidget {
                   color: Colors.black.withOpacity(0.8),
                   spreadRadius: 1,
                   blurRadius: 3,
-                  offset: Offset(0, 2), // changes position of shadow
+                  offset: Offset(0, 2), 
                 ),
               ],
               borderRadius: BorderRadius.only(
@@ -165,11 +165,11 @@ class ViewOther extends StatelessWidget {
                 icon: Icon(Icons.alternate_email),
                 iconSize: 35,
                 onPressed: () {
-                  // Show contact information sheet
+                
                   showModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
-                      // Return a widget with user's contact information
+                
                       return ContactInformationScreen(userId: userId);
                     },
                   );
@@ -182,7 +182,6 @@ class ViewOther extends StatelessWidget {
     ),
   );
 }
-
 }
 
 class ContactInformationScreen extends StatelessWidget {

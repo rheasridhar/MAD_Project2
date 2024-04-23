@@ -86,7 +86,7 @@ class LoginScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Artfolio'),
       ),
-      body: SingleChildScrollView( // Wrap with SingleChildScrollView
+      body: SingleChildScrollView( 
         child: Padding(
           padding: EdgeInsets.all(16.0),
           child: Column(
@@ -252,7 +252,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       appBar: AppBar(
         title: Text('Create Account'),
       ),
-      body: SingleChildScrollView( // Wrap with SingleChildScrollView
+      body: SingleChildScrollView( 
         child: Padding(
           padding: EdgeInsets.all(16.0),
           child: Column(
