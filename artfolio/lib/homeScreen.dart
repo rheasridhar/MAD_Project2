@@ -6,6 +6,19 @@ class HomeScreen extends StatelessWidget {
 
   HomeScreen({required this.userId});
 
+  // Function to handle logout
+  void _logout(BuildContext context) {
+    // Implement your logout logic here, such as clearing user session data
+    // For example, you can use SharedPreferences to clear user data
+
+    // Clear all existing routes and navigate to the login screen
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      '/login', // Route name of the login screen
+      (route) => false, // Clear all existing routes
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<DocumentSnapshot>(
@@ -44,27 +57,32 @@ class HomeScreen extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               title: Text('Welcome, $firstName'),
+              actions: [
+                IconButton(
+                  icon: Icon(Icons.logout),
+                  onPressed: () => _logout(context), // Call the logout function when pressed
+                ),
+              ],
             ),
             body: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-  onPressed: () {
-    Navigator.pushNamed(context, '/myPortfolio', arguments: userId);
-  },
-  child: Text(
-    'My Portfolio',
-    style: TextStyle(fontSize: 24.0),
-  ),
-  style: ElevatedButton.styleFrom(
-    minimumSize: Size(300, 300),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10.0),
-    ),
-  ),
-),
-
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/myPortfolio', arguments: userId);
+                    },
+                    child: Text(
+                      'My Portfolio',
+                      style: TextStyle(fontSize: 24.0),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(300, 300),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                  ),
                   SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {

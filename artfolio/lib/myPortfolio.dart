@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'editProfileScreen.dart'; // Import the edit profile screen
 
 class MyPortfolio extends StatelessWidget {
   final String userId;
@@ -11,6 +12,7 @@ class MyPortfolio extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('My Portfolio'),
+        
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -32,9 +34,24 @@ class MyPortfolio extends StatelessWidget {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Name: ${userData['firstName']} ${userData['lastName']}',
-                          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Name: ${userData['firstName']} ${userData['lastName']}',
+                              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.edit),
+                              onPressed: () {
+                                // Navigate to the edit profile screen
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => EditProfileScreen(userData: userData)),
+                                );
+                              },
+                            ),
+                          ],
                         ),
                         SizedBox(height: 10.0),
                         Text(
@@ -61,9 +78,10 @@ class MyPortfolio extends StatelessWidget {
                               return GridView.builder(
                                 shrinkWrap: true,
                                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 10.0,
-                                  mainAxisSpacing: 10.0,
+                                  crossAxisCount: 3, // Changed to 3 images per row
+                                  crossAxisSpacing: 3.0,
+                                  mainAxisSpacing: 3.0,
+                                  childAspectRatio: 1, // Adjust aspect ratio for wider squares
                                 ),
                                 itemCount: snapshot.data!.docs.length,
                                 itemBuilder: (BuildContext context, int index) {
@@ -74,24 +92,12 @@ class MyPortfolio extends StatelessWidget {
                                     },
                                     child: Card(
                                       elevation: 3.0,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            height: 150.0, // Fixed height to ensure images have the same size
-                                            child: Image.network(
-                                              artwork['imageURL'],
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text(
-                                              artwork['description'] ?? 'No description',
-                                              style: TextStyle(fontSize: 16.0),
-                                            ),
-                                          ),
-                                        ],
+                                      child: AspectRatio(
+                                        aspectRatio: 1, // Square aspect ratio
+                                        child: Image.network(
+                                          artwork['imageURL'],
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
                                   );

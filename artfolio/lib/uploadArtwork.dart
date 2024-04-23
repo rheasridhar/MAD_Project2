@@ -20,36 +20,40 @@ class _UploadArtworkState extends State<UploadArtwork> {
 
   final ImagePicker _picker = ImagePicker();
 
-  Future<void> _uploadArtwork() async {
-    try {
-      // Upload image to Firebase Storage
-      String imageName = DateTime.now().millisecondsSinceEpoch.toString();
-      String imagePath = 'artworks/${widget.userId}/$imageName.jpg';
-      await FirebaseStorage.instance.ref().child(imagePath).putFile(_image!);
+ Future<void> _uploadArtwork() async {
+  try {
+    // Upload image to Firebase Storage
+    String imageName = DateTime.now().millisecondsSinceEpoch.toString();
+    String imagePath = 'artworks/${widget.userId}/$imageName.jpg';
+    await FirebaseStorage.instance.ref().child(imagePath).putFile(_image!);
 
-      // Get image URL
-      String imageURL = await FirebaseStorage.instance.ref(imagePath).getDownloadURL();
+    // Get image URL
+    String imageURL = await FirebaseStorage.instance.ref(imagePath).getDownloadURL();
 
-      // Save artwork details to Firestore
-      await FirebaseFirestore.instance.collection('artworks').add({
-        'userId': widget.userId,
-        'imageURL': imageURL,
-        'description': _descriptionController.text,
-        'timestamp': DateTime.now(),
-      });
+    // Save artwork details to Firestore
+    await FirebaseFirestore.instance.collection('artworks').add({
+      'userId': widget.userId,
+      'imageURL': imageURL,
+      'description': _descriptionController.text,
+      'timestamp': DateTime.now(),
+    });
 
-      // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Artwork uploaded successfully!'),
-          backgroundColor: Colors.green,
-        ),
-      );
-    } catch (e) {
-      // Handle errors
-      print('Error uploading artwork: $e');
-    }
+    // Show success message
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Artwork uploaded successfully!'),
+        backgroundColor: Colors.green,
+      ),
+    );
+
+    // Close the UploadArtwork screen and return to MyPortfolio screen
+    Navigator.pop(context);
+  } catch (e) {
+    // Handle errors
+    print('Error uploading artwork: $e');
   }
+}
+
 
   Future<void> _pickImage() async {
     final pickedImage = await _picker.pickImage(source: ImageSource.gallery);
