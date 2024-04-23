@@ -2,25 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'viewOther.dart';
 
-
 class HomeScreen extends StatelessWidget {
   final String userId;
 
   HomeScreen({required this.userId});
 
-
   void _logout(BuildContext context) {
- 
     Navigator.pushNamedAndRemoveUntil(
       context,
-      '/login', 
-      (route) => false, 
+      '/login',
+      (route) => false,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    String enteredUid = ''; 
+    String enteredUid = '';
 
     return FutureBuilder<DocumentSnapshot>(
       future: FirebaseFirestore.instance.collection('users').doc(userId).get(),
@@ -61,7 +58,7 @@ class HomeScreen extends StatelessWidget {
               actions: [
                 IconButton(
                   icon: Icon(Icons.logout),
-                  onPressed: () => _logout(context), 
+                  onPressed: () => _logout(context),
                 ),
               ],
             ),
@@ -73,15 +70,27 @@ class HomeScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.pushNamed(context, '/myPortfolio', arguments: userId);
                     },
-                    child: Text(
-                      'My Portfolio',
-                      style: TextStyle(fontSize: 24.0),
-                    ),
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(300, 300),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
+                      backgroundColor: const Color.fromARGB(255, 97, 65, 159),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'My Portfolio',
+                          style: TextStyle(fontSize: 24.0, color: Colors.white),
+                        ),
+                        SizedBox(height: 8),
+                        Icon(
+                          Icons.yard,
+                          size: 200,
+                          color: Colors.white,
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(height: 20),
@@ -94,7 +103,7 @@ class HomeScreen extends StatelessWidget {
                             title: Text('Find Portfolio'),
                             content: TextFormField(
                               onChanged: (value) {
-                                enteredUid = value; 
+                                enteredUid = value;
                               },
                               decoration: InputDecoration(
                                 hintText: 'Enter UID',
@@ -103,7 +112,7 @@ class HomeScreen extends StatelessWidget {
                             actions: <Widget>[
                               ElevatedButton(
                                 onPressed: () {
-                                  Navigator.of(context).pop(); 
+                                  Navigator.of(context).pop();
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(builder: (context) => ViewOther(userId: enteredUid)),
@@ -116,9 +125,19 @@ class HomeScreen extends StatelessWidget {
                         },
                       );
                     },
-                    child: Text(
-                      'Find Portfolio',
-                      style: TextStyle(fontSize: 24.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Find Portfolio',
+                          style: TextStyle(fontSize: 24.0),
+                        ),
+                        SizedBox(height: 8),
+                        Icon(
+                          Icons.image_search,
+                          size: 200,
+                        ),
+                      ],
                     ),
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(300, 300),
