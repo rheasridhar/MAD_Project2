@@ -61,12 +61,13 @@ class _UploadArtworkState extends State<UploadArtwork> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Upload Artwork'),
-      ),
-      body: Padding(
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Text('Upload Artwork'),
+    ),
+    body: SingleChildScrollView(
+      child: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -75,12 +76,12 @@ class _UploadArtworkState extends State<UploadArtwork> {
               onTap: _pickImage,
               child: _image == null
                   ? Container(
-                      height: 200,
-                      color: Colors.grey[200],
-                      child: Center(
-                        child: Icon(Icons.camera_alt, size: 50),
-                      ),
-                    )
+                height: 200,
+                color: Colors.grey[200],
+                child: Center(
+                  child: Icon(Icons.camera_alt, size: 50),
+                ),
+              )
                   : Image.file(_image!),
             ),
             SizedBox(height: 20.0),
@@ -100,6 +101,8 @@ class _UploadArtworkState extends State<UploadArtwork> {
           ],
         ),
       ),
-    );
-  }
+    ),
+    resizeToAvoidBottomInset: true, 
+  );
+}
 }
