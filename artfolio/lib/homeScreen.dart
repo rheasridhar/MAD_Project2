@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'viewOther.dart';
+//import 'viewOther.dart'; // Import the ViewOther screen
+
 class HomeScreen extends StatelessWidget {
   final String userId;
 
@@ -21,6 +24,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String enteredUid = ''; // Initialize entered UID variable
+
     return FutureBuilder<DocumentSnapshot>(
       future: FirebaseFirestore.instance.collection('users').doc(userId).get(),
       builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
@@ -86,7 +91,36 @@ class HomeScreen extends StatelessWidget {
                   SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
-                      // Navigate to "Find Portfolio" page
+                      // Show dialog for finding portfolio
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Find Portfolio'),
+                            content: TextFormField(
+                              onChanged: (value) {
+                                enteredUid = value; // Update entered UID variable
+                              },
+                              decoration: InputDecoration(
+                                hintText: 'Enter UID',
+                              ),
+                            ),
+                            actions: <Widget>[
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(); // Close the dialog
+                                  // Navigate to the ViewOther screen with entered UID
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => ViewOther(userId: enteredUid)),
+                                  );
+                                },
+                                child: Text('Find'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     },
                     child: Text(
                       'Find Portfolio',

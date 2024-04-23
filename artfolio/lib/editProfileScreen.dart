@@ -62,6 +62,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Future<void> _saveChanges() async {
   try {
     String userId = FirebaseAuth.instance.currentUser!.uid;
+    
+    // Update user profile information
     await FirebaseFirestore.instance.collection('users').doc(userId).update({
       'firstName': _firstNameController.text,
       'lastName': _lastNameController.text,
@@ -70,6 +72,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       'address': _addressController.text,
       // Update other fields as well
     });
+
+    // If a new profile image is selected, upload it to Firebase Storage
+    if (_profileImage != null) {
+      String imagePath = 'profile_images/$userId.jpg';
+      Reference ref = FirebaseStorage.instance.ref().child(imagePath);
+      await ref.putFile(_profileImage!);
+      
+      // Get the download URL of the uploaded image
+      String downloadURL = await ref.getDownloadURL();
+
+      // Update the profile image URL in Firestore
+      await FirebaseFirestore.instance.collection('users').doc(userId).update({
+        'profileImageURL': downloadURL,
+      });
+    }
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Profile updated successfully!'),
@@ -81,6 +99,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     print('Error updating profile: $e');
   }
 }
+
 
 
   Future<void> _pickImage() async {

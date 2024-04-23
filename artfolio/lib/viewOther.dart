@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'editProfileScreen.dart'; // Import the edit profile screen
 
-class MyPortfolio extends StatelessWidget {
+class ViewOther extends StatelessWidget {
   final String userId;
 
-  MyPortfolio({required this.userId});
+  ViewOther({required this.userId});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Portfolio'),
+        title: Text('Portfolio'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -33,24 +32,9 @@ class MyPortfolio extends StatelessWidget {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CircleAvatar(
-                              radius: 50,
-                              backgroundImage: NetworkImage(userData['profileImageURL']),
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.edit),
-                              onPressed: () {
-                                // Navigate to the edit profile screen
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => EditProfileScreen(userData: userData)),
-                                );
-                              },
-                            ),
-                          ],
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundImage: NetworkImage(userData['profileImageURL']),
                         ),
                         SizedBox(height: 10.0),
                         Text(
@@ -63,6 +47,7 @@ class MyPortfolio extends StatelessWidget {
                           style: TextStyle(fontSize: 16.0, color: Colors.grey), // Lighter font color
                         ),
                         SizedBox(height: 10.0),
+                        // Remove label for artworks
                         // Display user artworks
                         StreamBuilder<QuerySnapshot>(
                           stream: FirebaseFirestore.instance.collection('artworks').where('userId', isEqualTo: userId).snapshots(),
@@ -113,13 +98,6 @@ class MyPortfolio extends StatelessWidget {
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Navigate to the screen to add a new artwork
-          Navigator.pushNamed(context, '/uploadArtwork', arguments: userId);
-        },
-        child: Icon(Icons.add),
       ),
     );
   }
