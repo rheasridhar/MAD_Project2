@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:image_picker/image_picker.dart';
-
-// Import the page where users can upload artworks
-import 'uploadArtwork.dart';
 
 class MyPortfolio extends StatelessWidget {
-  final String userId; // User ID of the specific user whose portfolio to display
+  final String userId;
 
   MyPortfolio({required this.userId});
 
@@ -20,7 +16,6 @@ class MyPortfolio extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Display user information
             Padding(
               padding: EdgeInsets.all(16.0),
               child: FutureBuilder<DocumentSnapshot>(
@@ -47,14 +42,64 @@ class MyPortfolio extends StatelessWidget {
                           style: TextStyle(fontSize: 16.0),
                         ),
                         SizedBox(height: 10.0),
-                        // Display user artworks
                         Text(
                           'Artworks:',
                           style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 10.0),
-                        // Add your code to display artworks here
-                        // For example, you can use a GridView to display images
+                        // Display user artworks
+                        StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance.collection('artworks').where('userId', isEqualTo: userId).snapshots(),
+                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                              return Text('No artworks found');
+                            } else {
+                              return GridView.builder(
+                                shrinkWrap: true,
+                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 10.0,
+                                  mainAxisSpacing: 10.0,
+                                ),
+                                itemCount: snapshot.data!.docs.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  var artwork = snapshot.data!.docs[index].data() as Map<String, dynamic>;
+                                  return InkWell(
+                                    onTap: () {
+                                      // Handle artwork tap
+                                    },
+                                    child: Card(
+                                      elevation: 3.0,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            height: 150.0, // Fixed height to ensure images have the same size
+                                            child: Image.network(
+                                              artwork['imageURL'],
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Text(
+                                              artwork['description'] ?? 'No description',
+                                              style: TextStyle(fontSize: 16.0),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            }
+                          },
+                        ),
                       ],
                     );
                   }
