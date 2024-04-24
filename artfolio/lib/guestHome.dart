@@ -17,74 +17,98 @@ class GuestHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String enteredUid = '';
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('Welcome, Guest'),
+        title: Text(
+          'Welcome, Guest',
+          style: TextStyle(color: Colors.white), 
+        ),
+        backgroundColor: Color(0xFF29386F), 
         actions: [
           IconButton(
-            icon: Icon(Icons.logout),
+            icon: Icon(
+              Icons.logout,
+              color: Colors.white, 
+            ),
             onPressed: () => _logout(context),
           ),
         ],
       ),
-     body: Center(
-  child: SizedBox(
-    width: 300,
-    height: 300,
-    child: ElevatedButton(
-      onPressed: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Find Portfolio'),
-              content: TextFormField(
-                onChanged: (value) {
-                  enteredUid = value;
+     backgroundColor: Color(0xFFe9f0ff), 
+      body: Center(
+        child: SizedBox(
+          width: 300,
+          height: 300,
+          child: ElevatedButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Find Portfolio'),
+                    backgroundColor: Color(0xFFCAD8EE),
+                    content: TextFormField(
+                      onChanged: (value) {
+                        enteredUid = value;
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'Enter UID',
+                        filled: true, 
+                        fillColor: Colors.white, 
+                        border: OutlineInputBorder( 
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: BorderSide.none, 
+                        ),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                      ),
+                    ),
+                    actions: <Widget>[
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ViewOther(userId: enteredUid)),
+                          );
+                        },
+                        child: Text(
+                          'Find',
+                          style: TextStyle(color: Colors.white), 
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          backgroundColor: Color(0xFF29386F), 
+                        ),
+                      ),
+                    ],
+                  );
                 },
-                decoration: InputDecoration(
-                  hintText: 'Enter UID',
+              );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Find Portfolio',
+                  style: TextStyle(fontSize: 24.0, color: Color(0xFF29386F)),
                 ),
-              ),
-              actions: <Widget>[
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ViewOther(userId: enteredUid)),
-                    );
-                  },
-                  child: Text('Find'),
+                Icon(
+                  Icons.image_search,
+                  size: 200,
+                  color: Color(0xFF29386F),
                 ),
               ],
-            );
-          },
-        );
-      },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Find Portfolio',
-            style: TextStyle(fontSize: 24.0),
+            ),
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ), backgroundColor: Color(0xFFAEBFDA),
+            ),
           ),
-          Icon(
-            Icons.image_search,
-            size: 200,
-          ),
-        ],
-      ),
-      style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
         ),
       ),
-    ),
-  ),
-),
-
     );
   }
 }

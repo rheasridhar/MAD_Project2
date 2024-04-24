@@ -84,11 +84,19 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Artfolio'),
-      ),
-      body: SingleChildScrollView( 
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
+  title: Text(
+    'Artfolio',
+    style: TextStyle(
+      color: Colors.white, 
+    ),
+  ),
+  backgroundColor: Color(0xFF29386F), 
+),
+
+      body: SingleChildScrollView(
+        child: Container(
+          color: Color(0xFFe9f0ff),
+          padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 500), 
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -102,18 +110,42 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20.0),
-              TextField(
-                controller: emailController,
-                decoration: InputDecoration(
-                  labelText: 'Email',
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white, 
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: TextField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                  ),
                 ),
               ),
-              SizedBox(height: 12.0),
-              TextField(
-                controller: passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: 'Password',
+              SizedBox(height: 20.0),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white, 
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: TextField(
+                  controller: passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                  ),
                 ),
               ),
               SizedBox(height: 20.0),
@@ -121,6 +153,9 @@ class LoginScreen extends StatelessWidget {
                 onPressed: () {
                   signInWithEmailAndPassword(context);
                 },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white, backgroundColor: Color(0xFF29386F), 
+                ),
                 child: Text('Submit'),
               ),
               SizedBox(height: 20.0),
@@ -129,20 +164,23 @@ class LoginScreen extends StatelessWidget {
                   Navigator.pushNamed(context, '/createAccount');
                 },
                 child: Text.rich(
-                  TextSpan(
-                    text: "Don't have an account? ",
-                    children: [
-                      TextSpan(
-                        text: 'Create one here',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ],
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+  TextSpan(
+    text: "Don't have an account? ",
+    children: [
+      TextSpan(
+        text: 'Create one here',
+        style: TextStyle(
+          color: Color(0xFFDE6E4B), 
+          fontWeight: FontWeight.bold,
+          decoration: TextDecoration.underline,
+          decorationColor: Color(0xFFDE6E4B), 
+        ),
+      ),
+    ],
+  ),
+  textAlign: TextAlign.center,
+),
+
               ),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 50.0),
@@ -168,6 +206,9 @@ class LoginScreen extends StatelessWidget {
                 onPressed: () {
                   signInAnonymously(context);
                 },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white, backgroundColor: Color(0xFF29386F), 
+                ),
                 child: Text('Guest'),
               ),
             ],
@@ -250,10 +291,19 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Account'),
-      ),
-      body: SingleChildScrollView( 
-        child: Padding(
+  title: Text(
+    'Create Account',
+    style: TextStyle(
+      color: Colors.white, 
+    ),
+  ),
+  backgroundColor: Color(0xFF29386F),
+  iconTheme: IconThemeData(color: Colors.white), 
+),
+
+      body: SingleChildScrollView(
+        child: Container(
+          color: Color(0xFFe9f0ff), 
           padding: EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -263,39 +313,89 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 onTap: _pickImage,
                 child: _profileImage == null
                     ? Container(
-                  height: 200,
-                  color: Colors.grey[200],
-                  child: Center(
-                    child: Icon(Icons.camera_alt, size: 50),
-                  ),
-                )
+                        height: 200,
+                        color: Color(0xFF9AABC6),
+                        child: Center(
+                          child: Icon(Icons.camera_alt, size: 50),
+                        ),
+                      )
                     : Image.file(_profileImage!),
               ),
               SizedBox(height: 20.0),
-              TextField(
-                controller: emailController,
-                decoration: InputDecoration(
-                  labelText: 'Email',
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white, 
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(8.0),
                 ),
-              ),
-              TextField(
-                controller: passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: 'Password',
+                child: TextField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                  ),
                 ),
               ),
               SizedBox(height: 20.0),
-              TextField(
-                controller: firstNameController,
-                decoration: InputDecoration(
-                  labelText: 'First Name',
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white, 
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: TextField(
+                  controller: passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                  ),
                 ),
               ),
-              TextField(
-                controller: lastNameController,
-                decoration: InputDecoration(
-                  labelText: 'Last Name',
+              SizedBox(height: 20.0),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white, 
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: TextField(
+                  controller: firstNameController,
+                  decoration: InputDecoration(
+                    labelText: 'First Name',
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20.0),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white, 
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: TextField(
+                  controller: lastNameController,
+                  decoration: InputDecoration(
+                    labelText: 'Last Name',
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                  ),
                 ),
               ),
               SizedBox(height: 20.0),
@@ -307,16 +407,41 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 ),
               ),
               SizedBox(height: 10.0),
-              TextField(
-                controller: phoneNumberController,
-                decoration: InputDecoration(
-                  labelText: 'Phone Number (Optional)',
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white, 
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: TextField(
+                  controller: phoneNumberController,
+                  decoration: InputDecoration(
+                    labelText: 'Phone Number (Optional)',
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                  ),
                 ),
               ),
-              TextField(
-                controller: addressController,
-                decoration: InputDecoration(
-                  labelText: 'Address (Optional)',
+              SizedBox(height: 20.0),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white, 
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: TextField(
+                  controller: addressController,
+                  decoration: InputDecoration(
+                    labelText: 'Address (Optional)',
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                  ),
                 ),
               ),
               SizedBox(height: 20.0),
@@ -324,6 +449,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 onPressed: () {
                   _createAccount(context);
                 },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white, backgroundColor: Color(0xFF29386F), 
+                ),
                 child: Text('Create Account'),
               ),
             ],

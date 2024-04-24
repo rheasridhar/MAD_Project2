@@ -84,7 +84,6 @@ Widget build(BuildContext context) {
                         ],
                       ),
                       SizedBox(height: 10.0),
-                      // Divider line
                       Divider(),
                     ],
                   );
@@ -115,7 +114,9 @@ Widget build(BuildContext context) {
                   itemBuilder: (BuildContext context, int index) {
                     var artwork = snapshot.data!.docs[index].data() as Map<String, dynamic>;
                     return InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        // HANDLE ARTWORK TAP
+                      },
                       child: Card(
                         elevation: 3.0,
                         child: AspectRatio(
