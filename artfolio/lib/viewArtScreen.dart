@@ -64,6 +64,9 @@ class _ViewArtScreenState extends State<ViewArtScreen> {
                   });
                 }
               },
+               style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white, backgroundColor: Color(0xFF29386F), 
+                ),
               child: Text('Submit'),
             ),
             SizedBox(height: 20),
